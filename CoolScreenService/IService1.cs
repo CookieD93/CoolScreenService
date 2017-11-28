@@ -5,6 +5,8 @@ using System.Runtime.Serialization;
 using System.ServiceModel;
 using System.ServiceModel.Web;
 using System.Text;
+using System.Web.Script.Services;
+using System.Web.UI;
 
 namespace CoolScreenService
 {
@@ -14,26 +16,37 @@ namespace CoolScreenService
     {
         // Opskrift service del
         [OperationContract]
+        [WebInvoke(Method = "POST", UriTemplate= "Opskrifter", ResponseFormat = WebMessageFormat.Json)]
         void CreateOpskrift(OpskriftClass opskriftClass);
 
         [OperationContract]
+        [WebInvoke(Method = "Get", UriTemplate = "Opskrifter", ResponseFormat = WebMessageFormat.Json)]
+        IList<OpskriftClass> GetOpskrifterDB();
+
+        [OperationContract]
+        [WebInvoke(Method = "GET", UriTemplate = "Opskrifter/{id}", ResponseFormat = WebMessageFormat.Json)]
         OpskriftClass ReadOpskrift(int id);
 
         [OperationContract]
+        [WebInvoke(Method = "PUT", UriTemplate = "Opskrifter", ResponseFormat = WebMessageFormat.Json)]
         void UpdateOpskrift(OpskriftClass opskriftClass);
 
         [OperationContract]
+        [WebInvoke(Method = "DELETE", UriTemplate = "Opskrifter/{id}", ResponseFormat = WebMessageFormat.Json)]
         void DeleteOpskrift(int id);
 
         //Temperatur service del
 
         [OperationContract]
+        [WebInvoke(Method = "POST", UriTemplate = "Temperatur", ResponseFormat = WebMessageFormat.Json)]
         string PostTemperatur(TemperaturClass temperaturClass);
 
         [OperationContract]
+        [WebInvoke(Method = "GET", UriTemplate = "Temperatur/{id}", ResponseFormat = WebMessageFormat.Json)]
         string ReadTemperatur(int id);
 
         [OperationContract]
+        [WebInvoke(Method = "GET", UriTemplate = "Temperatur", ResponseFormat = WebMessageFormat.Json)]
         string GetAvgTemperatur();
 
 
