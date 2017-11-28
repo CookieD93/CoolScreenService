@@ -14,26 +14,27 @@ namespace CoolScreenService
     {
         // Opskrift service del
         [OperationContract]
-        string CreateOpskrift();
+        void CreateOpskrift(OpskriftClass opskriftClass);
 
         [OperationContract]
-        string ReadOpskrift();
+        OpskriftClass ReadOpskrift(int id);
 
         [OperationContract]
-        string UpdateOpskrift();
+        void UpdateOpskrift(OpskriftClass opskriftClass);
 
         [OperationContract]
-        string DeleteOpskrift();
+        void DeleteOpskrift(int id);
 
         //Temperatur service del
 
         [OperationContract]
-        string PutTemperatur();
+        string PostTemperatur(TemperaturClass temperaturClass);
 
         [OperationContract]
-        string ReadTemperatur();
+        string ReadTemperatur(int id);
 
-
+        [OperationContract]
+        string GetAvgTemperatur();
 
 
 
