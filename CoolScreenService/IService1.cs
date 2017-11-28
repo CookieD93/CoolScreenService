@@ -12,6 +12,31 @@ namespace CoolScreenService
     [ServiceContract]
     public interface IService1
     {
+        // Opskrift service del
+        [OperationContract]
+        string CreateOpskrift();
+
+        [OperationContract]
+        string ReadOpskrift();
+
+        [OperationContract]
+        string UpdateOpskrift();
+
+        [OperationContract]
+        string DeleteOpskrift();
+
+        //Temperatur service del
+
+        [OperationContract]
+        string PutTemperatur();
+
+        [OperationContract]
+        string ReadTemperatur();
+
+
+
+
+
 
         [OperationContract]
         string GetData(int value);
