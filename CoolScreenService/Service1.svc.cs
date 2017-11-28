@@ -116,19 +116,69 @@ namespace CoolScreenService
         }
 
         //POST READ AVERAGE for Temperatur delen af servicen
-        public string PostTemperatur(TemperaturClass temperaturClass)
+        public void PostTemperatur(TemperaturClass temperaturClass)
         {
-            throw new NotImplementedException();
+            const string insertTemperatur =
+                "insert into Temperatur (Temperatur, TimeStamp) values (@Temperatur, @TimeStamp)";
+            using (SqlConnection dataConnection = new SqlConnection(ConnectionString))
+            {
+                dataConnection.Open();
+                using (SqlCommand insertCommand = new SqlCommand(insertTemperatur, dataConnection))
+                {
+                    insertCommand.Parameters.AddWithValue("@Temperatur", temperaturClass.Temperatur);
+                    insertCommand.Parameters.AddWithValue("@TimeStamp", temperaturClass.TimeStamp);
+                    insertCommand.ExecuteNonQuery();
+                }
+            }
         }
 
-        public string ReadTemperatur(int id)
+        public TemperaturClass ReadTemperatur(int id)
         {
-            throw new NotImplementedException();
+            const string readTemperatur = "select * from Temperatur where ID=@id";
+            using (SqlConnection dataConnection = new SqlConnection(ConnectionString))
+            {
+                dataConnection.Open();
+                using (SqlCommand readCommand = new SqlCommand(readTemperatur,dataConnection))
+                {
+                    readCommand.Parameters.AddWithValue("@id", id);
+
+                    using (SqlDataReader reader = readCommand.ExecuteReader())
+                    {
+                        if (!reader.HasRows)
+                        {
+                            return null;
+                        }
+                        reader.Read();
+                        return new TemperaturClass(reader.GetInt32(0), reader.GetDouble(1), reader.GetDateTime(2));
+                    }
+                }
+            }
+            
         }
 
-        public string GetAvgTemperatur()
+        public double GetAvgTemperatur()
         {
-            throw new NotImplementedException();
+            double averageTemp = 0;
+            const string getAverageTemperatur = "select AVG(Temperatur) from tempretur";
+            using (SqlConnection dataConnection = new SqlConnection(ConnectionString))
+            {
+                dataConnection.Open();
+                using (SqlCommand getAverageTemperaturCommand = new SqlCommand(getAverageTemperatur, dataConnection))
+                {
+                    using (SqlDataReader reader = getAverageTemperaturCommand.ExecuteReader())
+                    {
+                        if (!reader.HasRows)
+                        {
+                            return 0;
+                        }
+                        reader.Read();
+                        averageTemp = reader.GetDouble(1);
+                        return averageTemp;
+                    }
+                }
+            }
+
+            
         }
 
         public string GetData(int value)
