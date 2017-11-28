@@ -15,7 +15,10 @@ namespace CoolScreenService
     // NOTE: In order to launch WCF Test Client for testing this service, please select Service1.svc or Service1.svc.cs at the Solution Explorer and start debugging.
     public class Service1 : IService1
     {
+        //Connection string til at oprette forbindelse til Database
         private const string ConnectionString = "Server=tcp:coolscreen.database.windows.net,1433;Initial Catalog=CoolScreen;Persist Security Info=False;User ID=cookied;Password=Daniel1993;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;";
+
+        //CRUD til Opskrift delen af webservicen
         public void CreateOpskrift(OpskriftClass opskriftClass)
         {
             const string insertOpskrift = "insert into Opskrifter (Titel, Ingredienser, Opskrift) values (@Titel, @Ingrediser, @Opskrift)";
@@ -28,6 +31,31 @@ namespace CoolScreenService
                     insertCommand.Parameters.AddWithValue("@Ingredienser", opskriftClass.Ingredienser);
                     insertCommand.Parameters.AddWithValue("@Opskrift", opskriftClass.Opskrift);
                     insertCommand.ExecuteNonQuery();
+                }
+            }
+        }
+
+        public IList<OpskriftClass> GetOpskrifterDB()
+        {
+            const string selectOpskrifter = "selecr * from Opskrifter";
+            using (SqlConnection dataConnection = new SqlConnection(ConnectionString))
+            {
+                dataConnection.Open();
+                using (SqlCommand getOpskrifterCommand = new SqlCommand(selectOpskrifter, dataConnection))
+                {
+                    using (SqlDataReader reader = getOpskrifterCommand.ExecuteReader())
+                    {
+                        if (!reader.HasRows)
+                        {
+                            return null;
+                        }
+                        List<OpskriftClass> list = new List<OpskriftClass>();
+                        while (reader.Read())
+                        {
+                            list.Add(MakeOpskrift(reader));
+                        }
+                        return list;
+                    }
                 }
             }
         }
@@ -87,6 +115,7 @@ namespace CoolScreenService
             }
         }
 
+        //POST READ AVERAGE for Temperatur delen af servicen
         public string PostTemperatur(TemperaturClass temperaturClass)
         {
             throw new NotImplementedException();
