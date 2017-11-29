@@ -159,7 +159,7 @@ namespace CoolScreenService
         public double GetAvgTemperatur()
         {
             double averageTemp = 0;
-            const string getAverageTemperatur = "select AVG(Temperatur) from tempretur";
+            const string getAverageTemperatur = "select AVG(Temperatur) from Tempretur";
             using (SqlConnection dataConnection = new SqlConnection(ConnectionString))
             {
                 dataConnection.Open();
