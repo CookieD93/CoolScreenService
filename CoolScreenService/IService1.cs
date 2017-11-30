@@ -20,12 +20,12 @@ namespace CoolScreenService
         void CreateOpskrift(OpskriftClass opskriftClass);
 
         [OperationContract]
-        [WebInvoke(Method = "Get", UriTemplate = "Opskrifter", ResponseFormat = WebMessageFormat.Json)]
+        [WebInvoke(Method = "GET", UriTemplate = "Opskrifter", ResponseFormat = WebMessageFormat.Json)]
         IList<OpskriftClass> GetOpskrifterDB();
 
         [OperationContract]
         [WebInvoke(Method = "GET", UriTemplate = "Opskrifter/{id}", ResponseFormat = WebMessageFormat.Json)]
-        OpskriftClass ReadOpskrift(int id);
+        OpskriftClass ReadOpskrift(string id);
 
         [OperationContract]
         [WebInvoke(Method = "PUT", UriTemplate = "Opskrifter", ResponseFormat = WebMessageFormat.Json)]
@@ -33,21 +33,21 @@ namespace CoolScreenService
 
         [OperationContract]
         [WebInvoke(Method = "DELETE", UriTemplate = "Opskrifter/{id}", ResponseFormat = WebMessageFormat.Json)]
-        void DeleteOpskrift(int id);
+        void DeleteOpskrift(string id);
 
         //Temperatur service del
 
         [OperationContract]
         [WebInvoke(Method = "POST", UriTemplate = "Temperatur", ResponseFormat = WebMessageFormat.Json)]
-        string PostTemperatur(TemperaturClass temperaturClass);
+        void PostTemperatur(TemperaturClass temperaturClass);
 
         [OperationContract]
         [WebInvoke(Method = "GET", UriTemplate = "Temperatur/{id}", ResponseFormat = WebMessageFormat.Json)]
-        string ReadTemperatur(int id);
+        TemperaturClass ReadTemperatur(string id);
 
         [OperationContract]
         [WebInvoke(Method = "GET", UriTemplate = "Temperatur", ResponseFormat = WebMessageFormat.Json)]
-        string GetAvgTemperatur();
+        double GetAvgTemperatur();
 
 
 

@@ -21,7 +21,7 @@ namespace CoolScreenService
         //CRUD til Opskrift delen af webservicen
         public void CreateOpskrift(OpskriftClass opskriftClass)
         {
-            const string insertOpskrift = "insert into Opskrifter (Titel, Ingredienser, Opskrift) values (@Titel, @Ingrediser, @Opskrift)";
+            const string insertOpskrift = "insert into Opskrifter (Titel, Ingredienser, Opskrift) values (@Titel, @Ingredienser, @Opskrift)";
             using (SqlConnection dataConnection = new SqlConnection(ConnectionString))
             {
                 dataConnection.Open();
@@ -37,7 +37,7 @@ namespace CoolScreenService
 
         public IList<OpskriftClass> GetOpskrifterDB()
         {
-            const string selectOpskrifter = "selecr * from Opskrifter";
+            const string selectOpskrifter = "select * from Opskrifter";
             using (SqlConnection dataConnection = new SqlConnection(ConnectionString))
             {
                 dataConnection.Open();
@@ -60,7 +60,7 @@ namespace CoolScreenService
             }
         }
 
-        public OpskriftClass ReadOpskrift(int id)
+        public OpskriftClass ReadOpskrift(string id)
         {
             const string SelectOpskrift = "select * from Opskrifter where Id = @id";
             using (SqlConnection dataConnection = new SqlConnection(ConnectionString))
@@ -68,7 +68,7 @@ namespace CoolScreenService
                 dataConnection.Open();
                 using (SqlCommand selectCommand = new SqlCommand(SelectOpskrift,dataConnection))
                 {
-                    selectCommand.Parameters.AddWithValue("@id", id);
+                    selectCommand.Parameters.AddWithValue("@id", int.Parse(id));
 
                     using (SqlDataReader reader = selectCommand.ExecuteReader())
                     {
@@ -101,34 +101,84 @@ namespace CoolScreenService
             }
         }
 
-        public void DeleteOpskrift(int id)
+        public void DeleteOpskrift(string id)
         {
-            const string deleteOpskrift = "Deletes from Opskrifter where Id = @id";
+            const string deleteOpskrift = "Delete from Opskrifter where Id = @id";
             using (SqlConnection dataConnection = new SqlConnection(ConnectionString))
             {
                 dataConnection.Open();
                 using (SqlCommand deleteCommand = new SqlCommand(deleteOpskrift, dataConnection))
                 {
-                    deleteCommand.Parameters.AddWithValue("@id", id);
+                    deleteCommand.Parameters.AddWithValue("@id", int.Parse(id));
                     deleteCommand.ExecuteNonQuery();
                 }
             }
         }
 
         //POST READ AVERAGE for Temperatur delen af servicen
-        public string PostTemperatur(TemperaturClass temperaturClass)
+        public void PostTemperatur(TemperaturClass temperaturClass)
         {
-            throw new NotImplementedException();
+            const string insertTemperatur =
+                "insert into Temperatur (Temperatur, TimeStamp) values (@Temperatur, @TimeStamp)";
+            using (SqlConnection dataConnection = new SqlConnection(ConnectionString))
+            {
+                dataConnection.Open();
+                using (SqlCommand insertCommand = new SqlCommand(insertTemperatur, dataConnection))
+                {
+                    insertCommand.Parameters.AddWithValue("@Temperatur", temperaturClass.Temperatur);
+                    insertCommand.Parameters.AddWithValue("@TimeStamp", temperaturClass.TimeStamp);
+                    insertCommand.ExecuteNonQuery();
+                }
+            }
         }
 
-        public string ReadTemperatur(int id)
+        public TemperaturClass ReadTemperatur(string id)
         {
-            throw new NotImplementedException();
+            const string readTemperatur = "select * from Temperatur where ID=@id";
+            using (SqlConnection dataConnection = new SqlConnection(ConnectionString))
+            {
+                dataConnection.Open();
+                using (SqlCommand readCommand = new SqlCommand(readTemperatur,dataConnection))
+                {
+                    readCommand.Parameters.AddWithValue("@id", int.Parse(id));
+
+                    using (SqlDataReader reader = readCommand.ExecuteReader())
+                    {
+                        if (!reader.HasRows)
+                        {
+                            return null;
+                        }
+                        reader.Read();
+                        return new TemperaturClass(reader.GetInt32(0), reader.GetDouble(1), reader.GetDateTime(2));
+                    }
+                }
+            }
+            
         }
 
-        public string GetAvgTemperatur()
+        public double GetAvgTemperatur()
         {
-            throw new NotImplementedException();
+            double averageTemp = 0;
+            const string getAverageTemperatur = "select AVG(Temperatur) from Tempretur";
+            using (SqlConnection dataConnection = new SqlConnection(ConnectionString))
+            {
+                dataConnection.Open();
+                using (SqlCommand getAverageTemperaturCommand = new SqlCommand(getAverageTemperatur, dataConnection))
+                {
+                    using (SqlDataReader reader = getAverageTemperaturCommand.ExecuteReader())
+                    {
+                        if (!reader.HasRows)
+                        {
+                            return 0;
+                        }
+                        reader.Read();
+                        averageTemp = reader.GetDouble(1);
+                        return averageTemp;
+                    }
+                }
+            }
+
+            
         }
 
         public string GetData(int value)
