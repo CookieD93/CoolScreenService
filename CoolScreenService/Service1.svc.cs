@@ -21,7 +21,7 @@ namespace CoolScreenService
         //CRUD til Opskrift delen af webservicen
         public void CreateOpskrift(OpskriftClass opskriftClass)
         {
-            const string insertOpskrift = "insert into Opskrifter (Titel, Ingredienser, Opskrift) values (@Titel, @Ingrediser, @Opskrift)";
+            const string insertOpskrift = "insert into Opskrifter (Titel, Ingredienser, Opskrift) values (@Titel, @Ingredienser, @Opskrift)";
             using (SqlConnection dataConnection = new SqlConnection(ConnectionString))
             {
                 dataConnection.Open();
@@ -37,7 +37,7 @@ namespace CoolScreenService
 
         public IList<OpskriftClass> GetOpskrifterDB()
         {
-            const string selectOpskrifter = "selecr * from Opskrifter";
+            const string selectOpskrifter = "select * from Opskrifter";
             using (SqlConnection dataConnection = new SqlConnection(ConnectionString))
             {
                 dataConnection.Open();
@@ -60,7 +60,7 @@ namespace CoolScreenService
             }
         }
 
-        public OpskriftClass ReadOpskrift(int id)
+        public OpskriftClass ReadOpskrift(string id)
         {
             const string SelectOpskrift = "select * from Opskrifter where Id = @id";
             using (SqlConnection dataConnection = new SqlConnection(ConnectionString))
@@ -68,7 +68,7 @@ namespace CoolScreenService
                 dataConnection.Open();
                 using (SqlCommand selectCommand = new SqlCommand(SelectOpskrift,dataConnection))
                 {
-                    selectCommand.Parameters.AddWithValue("@id", id);
+                    selectCommand.Parameters.AddWithValue("@id", int.Parse(id));
 
                     using (SqlDataReader reader = selectCommand.ExecuteReader())
                     {
@@ -101,15 +101,15 @@ namespace CoolScreenService
             }
         }
 
-        public void DeleteOpskrift(int id)
+        public void DeleteOpskrift(string id)
         {
-            const string deleteOpskrift = "Deletes from Opskrifter where Id = @id";
+            const string deleteOpskrift = "Delete from Opskrifter where Id = @id";
             using (SqlConnection dataConnection = new SqlConnection(ConnectionString))
             {
                 dataConnection.Open();
                 using (SqlCommand deleteCommand = new SqlCommand(deleteOpskrift, dataConnection))
                 {
-                    deleteCommand.Parameters.AddWithValue("@id", id);
+                    deleteCommand.Parameters.AddWithValue("@id", int.Parse(id));
                     deleteCommand.ExecuteNonQuery();
                 }
             }
@@ -132,7 +132,7 @@ namespace CoolScreenService
             }
         }
 
-        public TemperaturClass ReadTemperatur(int id)
+        public TemperaturClass ReadTemperatur(string id)
         {
             const string readTemperatur = "select * from Temperatur where ID=@id";
             using (SqlConnection dataConnection = new SqlConnection(ConnectionString))
@@ -140,7 +140,7 @@ namespace CoolScreenService
                 dataConnection.Open();
                 using (SqlCommand readCommand = new SqlCommand(readTemperatur,dataConnection))
                 {
-                    readCommand.Parameters.AddWithValue("@id", id);
+                    readCommand.Parameters.AddWithValue("@id", int.Parse(id));
 
                     using (SqlDataReader reader = readCommand.ExecuteReader())
                     {
