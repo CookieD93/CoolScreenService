@@ -150,7 +150,7 @@ namespace CoolScreenService
                             return null;
                         }
                         reader.Read();
-                        return new TemperaturClass(reader.GetInt32(0), reader.GetDouble(1), DateTime.Parse(reader.GetString(2)));
+                        return new TemperaturClass(reader.GetInt32(0), reader.GetDouble(1), reader.GetString(2));
                     }
                 }
             }
