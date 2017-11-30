@@ -42,11 +42,11 @@ namespace CoolScreenService
         void PostTemperatur(TemperaturClass temperaturClass);
 
         [OperationContract]
-        [WebInvoke(Method = "GET", UriTemplate = "Temperatur/{id}", ResponseFormat = WebMessageFormat.Json)]
-        TemperaturClass ReadTemperatur(string id);
+        [WebInvoke(Method = "GET", UriTemplate = "Temperatur", ResponseFormat = WebMessageFormat.Json)]
+        TemperaturClass ReadTemperatur();
 
         [OperationContract]
-        [WebInvoke(Method = "GET", UriTemplate = "Temperatur", ResponseFormat = WebMessageFormat.Json)]
+        [WebInvoke(Method = "GET", UriTemplate = "Temperatur/Average", ResponseFormat = WebMessageFormat.Json)]
         double GetAvgTemperatur();
 
 

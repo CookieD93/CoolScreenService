@@ -126,21 +126,21 @@ namespace CoolScreenService
                 using (SqlCommand insertCommand = new SqlCommand(insertTemperatur, dataConnection))
                 {
                     insertCommand.Parameters.AddWithValue("@Temperatur", temperaturClass.Temperatur);
-                    insertCommand.Parameters.AddWithValue("@TimeStamp", DateTime.Now);
+                    insertCommand.Parameters.AddWithValue("@TimeStamp", $"{DateTime.Now}");
                     insertCommand.ExecuteNonQuery();
                 }
             }
         }
 
-        public TemperaturClass ReadTemperatur(string id)
+        public TemperaturClass ReadTemperatur()
         {
-            const string readTemperatur = "select * from Temperatur where ID=@id";
+            const string readTemperatur = "SELECT TOP 1 * FROM Temperatur ORDER BY Id DESC";//"select * from Temperatur";
             using (SqlConnection dataConnection = new SqlConnection(ConnectionString))
             {
                 dataConnection.Open();
                 using (SqlCommand readCommand = new SqlCommand(readTemperatur,dataConnection))
                 {
-                    readCommand.Parameters.AddWithValue("@id", int.Parse(id));
+                    
 
                     using (SqlDataReader reader = readCommand.ExecuteReader())
                     {
@@ -149,7 +149,7 @@ namespace CoolScreenService
                             return null;
                         }
                         reader.Read();
-                        return new TemperaturClass(reader.GetInt32(0), reader.GetDouble(1), reader.GetDateTime(2));
+                        return new TemperaturClass(reader.GetInt32(0), reader.GetDouble(1), DateTime.Parse(reader.GetString(2)));
                     }
                 }
             }
