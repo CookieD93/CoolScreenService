@@ -126,7 +126,7 @@ namespace CoolScreenService
                 using (SqlCommand insertCommand = new SqlCommand(insertTemperatur, dataConnection))
                 {
                     insertCommand.Parameters.AddWithValue("@Temperatur", temperaturClass.Temperatur);
-                    insertCommand.Parameters.AddWithValue("@TimeStamp", temperaturClass.TimeStamp);
+                    insertCommand.Parameters.AddWithValue("@TimeStamp", DateTime.Now);
                     insertCommand.ExecuteNonQuery();
                 }
             }
@@ -159,7 +159,7 @@ namespace CoolScreenService
         public double GetAvgTemperatur()
         {
             double averageTemp = 0;
-            const string getAverageTemperatur = "select AVG(Temperatur) from Tempretur";
+            const string getAverageTemperatur = "select AVG(Temperatur) from Temperatur";
             using (SqlConnection dataConnection = new SqlConnection(ConnectionString))
             {
                 dataConnection.Open();
@@ -172,7 +172,7 @@ namespace CoolScreenService
                             return 0;
                         }
                         reader.Read();
-                        averageTemp = reader.GetDouble(1);
+                        averageTemp = reader.GetDouble(0);
                         return averageTemp;
                     }
                 }
