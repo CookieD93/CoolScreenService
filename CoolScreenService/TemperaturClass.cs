@@ -14,14 +14,14 @@ namespace CoolScreenService
         [DataMember]
         public double Temperatur { get; set; }
         [DataMember]
-        public DateTime TimeStamp { get; set; }
+        public string TimeStamp { get; set; }
 
         public TemperaturClass()
         {
             
         }
 
-        public TemperaturClass(int id, double temperatur, DateTime timeStamp)
+        public TemperaturClass(int id, double temperatur, string timeStamp)
         {
             Id = id;
             Temperatur = temperatur;
