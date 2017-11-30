@@ -97,6 +97,7 @@ namespace CoolScreenService
                     updateCommand.Parameters.AddWithValue("@Titel", opskriftClass.Titel);
                     updateCommand.Parameters.AddWithValue("@Ingredienser", opskriftClass.Ingredienser);
                     updateCommand.Parameters.AddWithValue("@Opskrift", opskriftClass.Opskrift);
+                    updateCommand.ExecuteNonQuery();
                 }
             }
         }
