@@ -49,8 +49,27 @@ namespace CoolScreenService
         [WebInvoke(Method = "GET", UriTemplate = "Temperatur/Average", ResponseFormat = WebMessageFormat.Json)]
         double GetAvgTemperatur();
 
+        // Note service del
 
+        [OperationContract]
+        [WebInvoke(Method = "POST", UriTemplate = "Note", RequestFormat = WebMessageFormat.Json)]
+        int PostNote(NoteClass noteClass);
 
+        [OperationContract]
+        [WebInvoke(Method = "GET", UriTemplate = "Note/{id}", RequestFormat = WebMessageFormat.Json)]
+        NoteClass GetNote(string id);
+
+        [OperationContract]
+        [WebInvoke(Method = "GET", UriTemplate = "Note", RequestFormat = WebMessageFormat.Json)]
+        IList<NoteClass> GetNoteDB();
+
+        [OperationContract]
+        [WebInvoke(Method = "DELETE", UriTemplate = "Note/{id}", RequestFormat = WebMessageFormat.Json)]
+        int DeleteNote(string id);
+
+        [OperationContract]
+        [WebInvoke(Method = "PUT", UriTemplate = "Note", RequestFormat = WebMessageFormat.Json)]
+        void UpdateNote(NoteClass noteClass);
 
         [OperationContract]
         string GetData(int value);
