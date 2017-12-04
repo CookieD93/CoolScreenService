@@ -4,6 +4,7 @@ using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
+using System.Net;
 using System.Runtime.Serialization;
 using System.ServiceModel;
 using System.ServiceModel.Web;
@@ -178,9 +179,121 @@ namespace CoolScreenService
                     }
                 }
             }
-
-            
         }
+
+        public int PostNote(NoteClass noteClass)
+        {
+            const string insertNote = "insert into Noter (Titel, Note) values (@Titel, @Note)";
+            using (SqlConnection dataConnection = new SqlConnection(ConnectionString))
+            {
+                dataConnection.Open();
+                using (SqlCommand insertCommand = new SqlCommand(insertNote, dataConnection))
+                {
+                    insertCommand.Parameters.AddWithValue("@Titel", noteClass.Titel);
+                    insertCommand.Parameters.AddWithValue("@Note", noteClass.Note);
+                    int inters = insertCommand.ExecuteNonQuery();
+                    if(inters != 0)
+                    {
+                        return 1;
+                    }
+                    return 0;
+                }
+            }
+        }
+
+        public NoteClass GetNote(string id)
+        {
+            const string SelectNote = "select * from Noter where Id = @id";
+            using (SqlConnection dataConnection = new SqlConnection(ConnectionString))
+            {
+                dataConnection.Open();
+                using (SqlCommand selectCommand = new SqlCommand(SelectNote, dataConnection))
+                {
+                    selectCommand.Parameters.AddWithValue("@id", int.Parse(id));
+
+                    using (SqlDataReader reader = selectCommand.ExecuteReader())
+                    {
+                        if (!reader.HasRows)
+                        {
+                            return null;
+                        }
+                        reader.Read();
+
+                        return MakeNote(reader);
+                    }
+                }
+            }
+        }
+
+        public IList<NoteClass> GetNoteDB()
+        {
+            const string selectNoter = "select * from Noter";
+            using (SqlConnection dataConnection = new SqlConnection(ConnectionString))
+            {
+                dataConnection.Open();
+                using (SqlCommand getNoterCommand = new SqlCommand(selectNoter, dataConnection))
+                {
+                    using (SqlDataReader reader = getNoterCommand.ExecuteReader())
+                    {
+                        if (!reader.HasRows)
+                        {
+                            return null;
+                        }
+                        List<NoteClass> list = new List<NoteClass>();
+                        while (reader.Read())
+                        {
+                            list.Add(MakeNote(reader));
+                        }
+                        return list;
+                    }
+                }
+            }
+        }
+
+        public int DeleteNote(string id)
+        {
+            const string deleteNote = "Delete from Noter where Id = @id";
+            using (SqlConnection dataConnection = new SqlConnection(ConnectionString))
+            {
+                dataConnection.Open();
+                using (SqlCommand deleteCommand = new SqlCommand(deleteNote, dataConnection))
+                {
+                    deleteCommand.Parameters.AddWithValue("@id", int.Parse(id));
+                    int inters = deleteCommand.ExecuteNonQuery();
+                    if (inters != 0)
+                    {
+                        return 1;
+                    }
+                    return 0;
+                }
+            }
+        }
+
+        public void UpdateNote(NoteClass noteClass)
+        {
+            const string updateOpskrift = "Update Noter Set Titel=@Titel,Note=@Note where Id=@id";
+            using (SqlConnection dataConnection = new SqlConnection(ConnectionString))
+            {
+                dataConnection.Open();
+                using (SqlCommand updateCommand = new SqlCommand(updateOpskrift, dataConnection))
+                {
+                    updateCommand.Parameters.AddWithValue("@id", noteClass.Id);
+                    updateCommand.Parameters.AddWithValue("@Titel",noteClass.Titel);
+                    updateCommand.Parameters.AddWithValue("@Note",noteClass.Note);
+                    updateCommand.ExecuteNonQuery();
+                }
+            }
+        }
+
+
+
+
+
+
+
+
+
+
 
         public string GetData(int value)
         {
@@ -210,6 +323,14 @@ namespace CoolScreenService
             string opskrift = reader.GetString(3);
             OpskriftClass tmpOpskrift = new OpskriftClass(id, titel, ingredienser, opskrift);
             return tmpOpskrift;
+        }
+        internal NoteClass MakeNote(IDataRecord reader)
+        {
+            int id = reader.GetInt32(0);
+            string titel = reader.GetString(1);
+            string note = reader.GetString(2);
+            NoteClass tmpNote = new NoteClass(id, titel, note);
+            return tmpNote;
         }
     }
 }
