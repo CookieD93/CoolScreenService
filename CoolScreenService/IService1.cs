@@ -39,7 +39,7 @@ namespace CoolScreenService
 
         [OperationContract]
         [WebInvoke(Method = "POST", UriTemplate = "Temperatur", ResponseFormat = WebMessageFormat.Json)]
-        void PostTemperatur(TemperaturClass temperaturClass);
+        void PostTemperatur(double temperatur);
 
         [OperationContract]
         [WebInvoke(Method = "GET", UriTemplate = "Temperatur", ResponseFormat = WebMessageFormat.Json)]

@@ -118,7 +118,7 @@ namespace CoolScreenService
         }
 
         //POST READ AVERAGE for Temperatur delen af servicen
-        public void PostTemperatur(TemperaturClass temperaturClass)
+        public void PostTemperatur(Double temperatur)
         {
             const string insertTemperatur =
                 "insert into Temperatur (Temperatur, TimeStamp) values (@Temperatur, @TimeStamp)";
@@ -127,7 +127,7 @@ namespace CoolScreenService
                 dataConnection.Open();
                 using (SqlCommand insertCommand = new SqlCommand(insertTemperatur, dataConnection))
                 {
-                    insertCommand.Parameters.AddWithValue("@Temperatur", temperaturClass.Temperatur);
+                    insertCommand.Parameters.AddWithValue("@Temperatur", temperatur);
                     insertCommand.Parameters.AddWithValue("@TimeStamp", $"{DateTime.Now}");
                     insertCommand.ExecuteNonQuery();
                 }
@@ -286,7 +286,28 @@ namespace CoolScreenService
         }
 
 
+        public NoteClass GetLastNote()
+        {
+            const string readNote = "SELECT TOP 1 * FROM Noter ORDER BY Id DESC";//"select * from Temperatur";
+            using (SqlConnection dataConnection = new SqlConnection(ConnectionString))
+            {
+                dataConnection.Open();
+                using (SqlCommand readCommand = new SqlCommand(readNote, dataConnection))
+                {
 
+
+                    using (SqlDataReader reader = readCommand.ExecuteReader())
+                    {
+                        if (!reader.HasRows)
+                        {
+                            return null;
+                        }
+                        reader.Read();
+                        return new NoteClass(reader.GetInt32(0), reader.GetString(1), reader.GetString(2));
+                    }
+                }
+            }
+        }
 
 
 
