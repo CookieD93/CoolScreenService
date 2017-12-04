@@ -94,7 +94,8 @@ namespace CoolScreenService.Tests
         [TestMethod()]
         public void DeleteNoteTest()
         {
-            Assert.AreEqual(1, service.DeleteNote("7"));
+            service.PostNote(note);
+            Assert.AreEqual(1, service.DeleteNote($"{service.GetLastNote().Id}"));
         }
 
         [TestMethod()]
