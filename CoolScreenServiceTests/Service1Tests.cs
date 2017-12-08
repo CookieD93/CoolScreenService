@@ -81,14 +81,15 @@ namespace CoolScreenService.Tests
         [TestMethod()]
         public void GetNoteTest1()
         {
-
-            Assert.AreEqual(note.Note, service.GetNote("5").Note);
+            service.PostNote(note);
+            Assert.AreEqual(note.Note, service.GetNote($"{service.GetLastNote().Id}").Note);
         }
 
         [TestMethod()]
         public void GetNoteDBTest()
         {
-            Assert.AreEqual(note.Note, service.GetNoteDB()[1].Note);
+            service.PostNote(note);
+            Assert.AreEqual(note.Note, service.GetNoteDB()[service.GetLastNote().Id].Note);
         }
 
         [TestMethod()]
@@ -101,8 +102,9 @@ namespace CoolScreenService.Tests
         [TestMethod()]
         public void UpdateNoteTest()
         {
+            service.PostNote(note);
             service.UpdateNote(new NoteClass(2, "one", "two"));
-            Assert.AreEqual("two", service.GetNote("2").Note);
+            Assert.AreEqual("two", service.GetNote($"{service.GetLastNote().Id}").Note);
         }
 
 //        [TestMethod()]
