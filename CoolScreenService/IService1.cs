@@ -38,8 +38,15 @@ namespace CoolScreenService
         //Temperatur service del
 
         [OperationContract]
-        [WebInvoke(Method = "POST", UriTemplate = "Temperatur", RequestFormat = WebMessageFormat.Json)]
-        void PostTemperatur(TemperaturClass temperatur);
+
+        [WebInvoke(Method = "POST",
+            ResponseFormat = WebMessageFormat.Json,
+            BodyStyle = WebMessageBodyStyle.Bare,
+            RequestFormat = WebMessageFormat.Json,
+            UriTemplate = "Temperatur"
+        )]
+        void PostTemperatur(TemperaturClass temperaturClass);
+
 
         [OperationContract]
         [WebInvoke(Method = "GET", UriTemplate = "Temperatur", ResponseFormat = WebMessageFormat.Json, RequestFormat = WebMessageFormat.Json)]

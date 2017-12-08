@@ -127,8 +127,10 @@ namespace CoolScreenService
                 dataConnection.Open();
                 using (SqlCommand insertCommand = new SqlCommand(insertTemperatur, dataConnection))
                 {
-                    insertCommand.Parameters.AddWithValue("@Temperatur", temperatur);
-                    insertCommand.Parameters.AddWithValue("@TimeStamp", $"{DateTime.Now}");
+
+                    insertCommand.Parameters.AddWithValue("@Temperatur", temperaturClass.Temperatur);
+                    insertCommand.Parameters.AddWithValue("@TimeStamp", temperaturClass.TimeStamp);
+
                     insertCommand.ExecuteNonQuery();
                 }
             }
