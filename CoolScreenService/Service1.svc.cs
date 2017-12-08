@@ -118,7 +118,7 @@ namespace CoolScreenService
         }
 
         //POST READ AVERAGE for Temperatur delen af servicen
-        public void PostTemperatur(Double temperatur)
+        public void PostTemperatur(TemperaturClass temperatur)
         {
             const string insertTemperatur =
                 "insert into Temperatur (Temperatur, TimeStamp) values (@Temperatur, @TimeStamp)";
