@@ -20,11 +20,11 @@ namespace CoolScreenService
         void CreateOpskrift(OpskriftClass opskriftClass);
 
         [OperationContract]
-        [WebInvoke(Method = "GET", UriTemplate = "Opskrifter", ResponseFormat = WebMessageFormat.Json)]
+        [WebInvoke(Method = "GET", UriTemplate = "Opskrifter", ResponseFormat = WebMessageFormat.Json, RequestFormat = WebMessageFormat.Json)]
         IList<OpskriftClass> GetOpskrifterDB();
 
         [OperationContract]
-        [WebInvoke(Method = "GET", UriTemplate = "Opskrifter/{id}", ResponseFormat = WebMessageFormat.Json)]
+        [WebInvoke(Method = "GET", UriTemplate = "Opskrifter/{id}", ResponseFormat = WebMessageFormat.Json, RequestFormat = WebMessageFormat.Json)]
         OpskriftClass ReadOpskrift(string id);
 
         [OperationContract]
@@ -42,11 +42,11 @@ namespace CoolScreenService
         void PostTemperatur(TemperaturClass temperatur);
 
         [OperationContract]
-        [WebInvoke(Method = "GET", UriTemplate = "Temperatur", ResponseFormat = WebMessageFormat.Json)]
+        [WebInvoke(Method = "GET", UriTemplate = "Temperatur", ResponseFormat = WebMessageFormat.Json, RequestFormat = WebMessageFormat.Json)]
         TemperaturClass ReadTemperatur();
 
         [OperationContract]
-        [WebInvoke(Method = "GET", UriTemplate = "Temperatur/Average", ResponseFormat = WebMessageFormat.Json)]
+        [WebInvoke(Method = "GET", UriTemplate = "Temperatur/Average", ResponseFormat = WebMessageFormat.Json, RequestFormat = WebMessageFormat.Json)]
         double GetAvgTemperatur();
 
         // Note service del
@@ -56,11 +56,11 @@ namespace CoolScreenService
         int PostNote(NoteClass noteClass);
 
         [OperationContract]
-        [WebInvoke(Method = "GET", UriTemplate = "Note/{id}", ResponseFormat = WebMessageFormat.Json)]
+        [WebInvoke(Method = "GET", UriTemplate = "Note/{id}", ResponseFormat = WebMessageFormat.Json, RequestFormat = WebMessageFormat.Json)]
         NoteClass GetNote(string id);
 
         [OperationContract]
-        [WebInvoke(Method = "GET", UriTemplate = "Note", ResponseFormat = WebMessageFormat.Json)]
+        [WebInvoke(Method = "GET", UriTemplate = "Note", ResponseFormat = WebMessageFormat.Json, RequestFormat = WebMessageFormat.Json)]
         IList<NoteClass> GetNoteDB();
 
         [OperationContract]
